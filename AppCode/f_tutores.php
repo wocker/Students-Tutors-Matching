@@ -50,13 +50,27 @@
             color: red;
             display: none;
         }
+
+        #progress {
+            width: 100%;
+            background-color: #f3f3f3;
+            border: 1px solid #bbb;
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        #progress-bar {
+            height: 100%;
+            background-color: #007bff;
+            width: 0;
+        }
     </style>
 </head>
 <body>
 <h1>Cuestionario</h1>
-  <h2>Estilos de Enseñanza | Tutores en #PilandoAndo</h2>
-    <form id="quizForm" method="POST" action="r_tutores.php">
-        <?php
+<h2>Estilos de Enseñanza | Tutores en #PilandoAndo</h2>
+<form id="quizForm" method="POST" action="r_tutores.php">
+<?php
         $questions = array(
             "Hechos, conceptos y principios son las cosas más importantes que los estudiantes deben adquirir.",
             "Establezco estándares altos para los estudiantes en esta clase.",
@@ -108,65 +122,57 @@
         );
         for ($i = 1; $i <= count($questions); $i++) {
             if (($i-1) % 10 == 0) {
-                echo $i != 1 ? '</div>' : '';
+                // cerrar el div anterior si no es la primera iteración
+                if ($i != 1) {
+                    echo '</div>';
+                }
+                // abrir un nuevo div para la siguiente sección
                 echo '<div class="quiz-section" id="section' . ceil($i / 10) . '">';
             }
             echo '<label for="pregunta' . $i . '"><b>Pregunta ' . $i . '</b>: ' . $questions[$i-1] . '</label><br>';
             for ($j = 1; $j <= 5; $j++) {
                 echo '<input type="radio" name="pregunta' . $i . '" value="' . $j . '"> ' . $options[$j-1] . '<br>';
             }
+            // cerrar el último div si es la última pregunta
+            if ($i == count($questions)) {
+                echo '</div>';
+            }
         }
-        echo '</div>';
         ?>
-        <input type="button" id="nextButton" class="btn" value="Siguiente">
-        <p id="unanswered"></p>
-        <input type="submit" class="btn" value="Enviar" style="display: none;" id="submitButton">
-    </form>
+</form>
+<div>
+    <div id="progress">
+        <div id="progress-bar"></div>
+    </div>
+    <input type="button" id="nextButton" class="btn" value="Siguiente">
+    <p id="unanswered"></p>
+    <input type="submit" class="btn" value="Enviar" style="display: none;" id="submitButton">
+</div>
 
-    <script>
-        var currentSection = 1;
-        var totalSections = Math.ceil(<?php echo count($questions); ?> / 10);
+<script>
+var currentSection = 1;
+var totalSections = Math.ceil(<?php echo count($questions); ?> / 10);
 
-        document.getElementById('nextButton').addEventListener('click', function() {
-            var unansweredQuestion = "";
-            var inputs = document.querySelectorAll('#section' + currentSection + ' input[type="radio"]');
-            for (var i = 0; i < inputs.length; i += 5) {
-                var answered = false;
-                for (var j = 0; j < 5; j++) {
-                    if (inputs[i + j].checked) {
-                        answered = true;
-                        inputs[i].parentElement.style.textDecoration = "none";
-                        break;
-                    }
-                }
-                if (!answered) {
-                    unansweredQuestion = inputs[i].name;
-                    inputs[i].parentElement.style.textDecoration = "underline red";
-                    break;
-                }
-            }
-            if (unansweredQuestion !== "") {
-                document.getElementById('unanswered').style.display = "block";
-                document.getElementById('unanswered').innerText = 'Te faltó responder la Pregunta ' + unansweredQuestion;
-            } else {
-                document.getElementById('unanswered').style.display = "none";
-                if (currentSection < totalSections) {
-                    document.getElementById('section' + currentSection).style.display = 'none';
-                    currentSection++;
-                    document.getElementById('section' + currentSection).style.display = 'block';
-                } else {
-                    document.getElementById('submitButton').click();
-                }
-            }
-        });
+window.onload = function() {
+    var sections = document.getElementsByClassName('quiz-section');
+    for (var i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+    }
+    document.getElementById('section1').style.display = 'block';
 
-        window.onload = function() {
-            var sections = document.getElementsByClassName('quiz-section');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = 'none';
-            }
-            document.getElementById('section1').style.display = 'block';
-        };
-    </script>
+    document.getElementById('nextButton').addEventListener('click', function() {
+        /* Código JavaScript... */
+        // Actualizar la barra de progreso
+        var progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = (currentSection / totalSections * 100) + '%';
+    });
+};
+</script>
 </body>
+<footer>
+    <div class="footer">
+        <h4>Powered by:</h4>
+        <img class="logo" src="img/logo_ayudinga.png" alt="Fundación Ayudinga" href="https://ayudinga.org" height="100" width="100">
+    </div>
+</footer>
 </html>
