@@ -2,14 +2,128 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Cuestionario de #PilandoAndo</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>#PilandoAndo | Fundación Ayudinga</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Work+Sans:wght@500;600&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Open Sans', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #FAFAFA;
+                color: #333;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header {
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            .logo {
+                max-width: 100%;
+                height: auto;
+                margin: 20px auto;
+                display: block;
+            }
+
+            .btn {
+                font-family: 'Work Sans', sans-serif;
+                padding: 10px 20px;
+                margin: 10px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                cursor: pointer;
+                text-decoration: none;
+                font-size: 1.1em;
+                transition: background-color 0.3s ease;
+            }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+
+            .mission-vision-container {
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                margin: 20px 0;
+            }
+
+            .mission-vision-content {
+                flex: 1 0 300px;
+                max-width: 400px;
+                margin: 20px;
+            }
+
+            .mission-vision-container img {
+                flex: 1 0 300px;
+                max-width: 400px;
+                margin: 20px;
+            }
+
+            .mission-vision-container h2, .mission-vision-container p {
+                text-align: justify;
+            }
+
+            .admin-section {
+                text-align: center;
+                margin-bottom: 50px;
+            }
+
+            .admin-section h3 a {
+                color: #333;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            .admin-section h3 a:hover {
+                color: #007bff;
+            }
+
+            .footer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            /* Media queries for responsiveness */
+            @media (min-width: 600px) {
+                .button-container {
+                    flex-direction: row;
+                    justify-content: space-around;
+                }
+            }
+        </style>
     </head>
     <body>
-        <h1>Bienvenidos al Cuestionario de #PilandoAndo</h1>
+        <div class="header">
+            <h1>Sistema de Gestión Educativa | #PilandoAndo</h1>
+        </div>
+        <div class="mission-vision-container">
+            <div class="mission-vision-content">
+                <h2>Misión</h2>
+                <p>Crear comunidades de aprendizaje de forma física con el uso de elementos disruptivos en el proceso de enseñanza aprendizaje con contenidos digitales previamente creados por la Fundación Ayudinga.</p>
+                <h2>Visión</h2>
+                <p>Llegar a los jóvenes en las comunidades o sectores de la República de Panamá que más han sido afectado por las circunstancias.</p>
+            </div>
+            <img class="image" src="img/pilando-ando.jpg" alt="#PilandoAndoAPC">
+        </div>
+        <div class="button-container">
+            <a href="f_estudiantes.php" class="btn">Soy Estudiante</a>
+            <a href="f_tutores.php" class="btn">Soy Tutor</a>
+        </div>
 
-        <img src="img/logo_ayudinga.png" alt="Logo">
-        
-        <a href="f_estudiantes.php"><button type="button">Soy estudiante</button></a>
-        <a href="f_tutores.php"><button type="button">Soy tutor</button></a>    </body>
+        <div class="admin-section">
+            <h3><a href="login.php">Espacio de Administración</a></h3>
+        </div>
+        <div class="footer">
+            <h4>Powered by:</h4>
+            <img class="logo" src="img/logo_ayudinga.png" alt="Fundación Ayudinga" href="https://ayudinga.org" height="100" width="100">
+        </div>
+    </body>
 </html>
