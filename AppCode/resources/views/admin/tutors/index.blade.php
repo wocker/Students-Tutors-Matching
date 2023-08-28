@@ -101,6 +101,17 @@
 
                 </div>
 
+                <div class="mt-4 text-center">
+
+                    <form id="form-tutor-delete" {{-- action="{{ route('admin.tutors.destroy', $tutor->id) }}" --}} method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <input type="button" onclick="confirmAllDelete('tutor')" class="btn btn-sm btn-alt-danger"
+                            value="Eliminar datos de Tutores">
+
+                    </form>
+                </div>
+
             </div>
 
         </div>
@@ -122,5 +133,98 @@
 
 <script src="{{ asset('js/pages/tables_datatables_tutors.js') }}"></script>
 
+<script>
+    function confirmAllDelete(type) {
+        Swal.fire({
+            title: '¿Estás seguro',
+            text: "Deseas eliminar los datos",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#198754',
+            confirmButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: '¡Sí, bórralo!',
+            reverseButtons: true,
+            focusCancel: true,
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // fire ask for password alert
+                askForPassword(type)
+
+            }
+        })
+    }
+
+    // ask for password alert
+    function askForPassword(type) {
+        Swal.fire({
+            title: 'Ingresa tu contraseña de administrador.',
+            input: 'password',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            confirmButtonColor: '#d33',
+            showLoaderOnConfirm: true,
+            cancelButtonColor: '#198754',
+            confirmButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Debes ingresar tu contraseña.'
+                }
+            },
+            preConfirm: (password) => {
+                return fetch(`/admin/dashboard/delete-all`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            password: password,
+                            type: type
+                        })
+                    })
+                    .then(response => {
+                        console.log(response)
+                        if (!response.ok) {
+                            throw new Error('Contraseña incorrecta.')
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        console.log("error", error)
+                        Swal.showValidationMessage(
+
+                            `Solicitud fallida: ${error}`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            console.log("last", result)
+            if (result.isConfirmed) {
+                // success alert
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Eliminado!',
+                    text: 'Los registros han sido eliminados.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        window.location.reload()
+                    }
+                })
+            }
+        })
+    }
+</script>
 
 @endsection

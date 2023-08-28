@@ -136,7 +136,7 @@
             <!-- Side Header -->
             <div class="content-header">
                 <!-- Logo -->
-                <a class="font-semibold text-dual" href="/">
+                <a class="font-semibold text-dual" href="{{ route("admin.dashboard.index") }}">
                     <span class="smini-visible">
                         <i class="fa fa-circle-notch text-primary"></i>
                     </span>
@@ -375,9 +375,13 @@
                 text: "¡No podrás revertir esto!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '¡Sí, bórralo!'
+                confirmButtonText: '¡Sí, bórralo!',
+                cancelButtonColor: '#198754',
+                confirmButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true,
+                focusCancel: true,
+
             }).then((result) => {
                 if (result.isConfirmed) {
                     $("#form-" + id).submit();

@@ -51,6 +51,8 @@ Route::middleware(["auth","check.locale"])->group(function () {
 
     Route::prefix("admin")->name("admin.")->middleware(["check.is_password_changed"])->group(function(){
 
+        Route::post("dashboard/delete-all",[AdminDashboardController::class,"deleteAll"])->name("dashboard.deleteAll");
+
         Route::get("",[AdminDashboardController::class,"index"])->name("dashboard.index");
 
 

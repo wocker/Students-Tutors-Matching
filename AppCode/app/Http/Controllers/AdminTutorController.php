@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Models\User;
+use App\Models\UserResponse;
 use Illuminate\Http\Request;
 
 class AdminTutorController extends Controller
@@ -94,5 +95,22 @@ class AdminTutorController extends Controller
         $tutor->delete();
 
         return redirect()->back()->with("success","Deleted Successfully");
+    }
+
+    public function deleteAll(Request $request)
+    {
+
+        // get all tutors
+        $tutors=User::role('tutor')->get();
+        $ids=$tutors->pluck("id")->toArray();
+
+        // delete all tutors responses
+        UserResponse::whereIn("user_id",$ids)->delete();
+
+        // delete all tutors
+        User::whereIn("id",$ids)->delete();
+
+
+        return response()->json(["success"=>"Eliminado Exitosamente"]);
     }
 }

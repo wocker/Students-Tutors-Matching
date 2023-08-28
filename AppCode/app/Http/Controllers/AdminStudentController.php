@@ -95,7 +95,7 @@ class AdminStudentController extends Controller
 
         $user->delete();
 
-        return redirect()->back()->with("success","Borrado exitosamente");
+        return redirect()->back()->with("success","Eliminado Exitosamente");
 
     }
 }
