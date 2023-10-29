@@ -196,6 +196,15 @@
                             </a>
                         </li>
 
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->segment(2) == 'grouping' ? ' active' : '' }}"
+                                href="{{ route('admin.grouping.index') }}">
+
+                                <i class="nav-main-link-icon fas fa-user-graduate"></i>
+                                 <span class="nav-main-link-name">{{ __("admin.grouping") }}</span>
+                            </a>
+                        </li>
+
 
                     </ul>
                 </div>

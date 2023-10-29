@@ -18,6 +18,8 @@ class AdminTutorController extends Controller
     {
         $tutors=User::role('tutor')
         ->where("is_survey_completed",1)
+        ->with(["responses"])
+        
         ->latest()->get();
 
         $quesObj=new Question();

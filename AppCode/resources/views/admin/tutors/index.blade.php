@@ -53,11 +53,21 @@
                         </thead>
 
                         <tbody>
+
+                            @php
+
+        $questions =  \App\Models\Question::where("type", "tutor")->get();
+        $learningStyles = \App\Models\LearningStyle::with(["recommendedTechniques","characteristics"])->get();
+        $userResponses=\App\Models\UserResponse::whereHas("question")->with('question')->get();
+
+
+                            @endphp
+
                             @foreach ($tutors as $ind => $tutor)
 
 
                             @php
-                                $learningStyle = $tutor->userLearningStyle();
+                                $learningStyle = $tutor->userLearningStyle('tutor',$questions,$learningStyles,$userResponses);
                             @endphp
 
 

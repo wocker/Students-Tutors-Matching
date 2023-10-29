@@ -43,6 +43,19 @@ return [
     "before_proceeding"=>"Antes de continuar, consulte su correo electrónico para obtener un enlace de verificación.",
     "email_not_received"=>"Si no recibiste el correo electrónico",
     "click_here_to_request_another"=>"haga clic aquí para solicitar otro",
+    "tutor_name"=>"Nombre del tutor",
+    "student"=>"Estudiante",
+    'grouping'=>'Grupos',
+    'group_number'=>'Número de grupo',
+    'generate_group'=>'Generar Grupos',
+    'students_per_group'=>'Estudiantes por grupo',
+    'generating'=>'Generando',
+    'students_without_group'=>'Estudiantes sin grupo',
+    'number_of_students_without_group'=>'Número de estudiantes sin grupo',
+    'percentage_of_students_without_group'=>'Porcentaje de estudiantes sin grupo',
+'tutors_without_group'=>'Tutores sin grupo',
+'number_of_tutors_without_group'=>'Número de tutores sin grupo',
+'percentage_of_tutors_without_group'=>'Porcentaje de tutores sin grupo',
 ];
 
 ?>

@@ -23,7 +23,11 @@ class DatabaseSeeder extends Seeder
             QuestionTutorSeeder::class,
             LearningStyleCharacteristicSeeder::class,
             LearningStyleRecommendedTechniqueSeeder::class,
-            AdminSeeder::class
+            AdminSeeder::class,
+            ClusterSeeder::class,
+            TutorClusterSeeder::class,
+            StudentClusterSeeder::class,
+            TeachingStylePreferenceSeeder::class,
         ]);
     }
 }

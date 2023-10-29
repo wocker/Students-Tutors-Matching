@@ -18,6 +18,7 @@ class AdminStudentController extends Controller
         $students=User::role('student')
         ->where("is_survey_completed",1)
         // ->where("id",62)
+        ->with(["responses"])
         ->latest()->get();
 
 
