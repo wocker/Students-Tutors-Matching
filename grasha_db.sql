@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 03-09-2023 a las 02:50:48
+-- Tiempo de generación: 30-10-2023 a las 05:10:17
 -- Versión del servidor: 8.0.34-0ubuntu0.22.04.1
--- Versión de PHP: 8.1.2-1ubuntu2.13
+-- Versión de PHP: 8.1.2-1ubuntu2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,19 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `grasha_db`
 --
-CREATE DATABASE IF NOT EXISTS `grasha_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `grasha_db`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clusters`
+--
+
+CREATE TABLE `clusters` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -216,7 +227,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2023_08_17_081200_create_learning_style_recommended_techniques_table', 2),
 (19, '2023_08_20_170324_add_soft_delete_in_user_responses_table', 2),
 (20, '2023_08_20_193006_add_soft_delete_in_users_table', 2),
-(21, '2023_08_23_185833_add_is_password_changed_in_users_table', 3);
+(21, '2023_08_23_185833_add_is_password_changed_in_users_table', 3),
+(22, '2023_10_21_192757_create_user_scores_table', 4),
+(23, '2023_10_21_193109_create_clusters_table', 4),
+(24, '2023_10_21_193206_create_student_clusters_table', 4),
+(25, '2023_10_21_193326_create_tutor_clusters_table', 4),
+(26, '2023_10_22_213258_create_teaching_style_preferences_table', 4);
 
 -- --------------------------------------------------------
 
@@ -630,7 +646,12 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (3, 'App\\Models\\User', 388),
 (3, 'App\\Models\\User', 389),
 (4, 'App\\Models\\User', 390),
-(4, 'App\\Models\\User', 391);
+(4, 'App\\Models\\User', 391),
+(4, 'App\\Models\\User', 392),
+(3, 'App\\Models\\User', 393),
+(3, 'App\\Models\\User', 394),
+(4, 'App\\Models\\User', 395),
+(4, 'App\\Models\\User', 396);
 
 -- --------------------------------------------------------
 
@@ -857,6 +878,70 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 CREATE TABLE `role_has_permissions` (
   `permission_id` bigint UNSIGNED NOT NULL,
   `role_id` bigint UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `student_clusters`
+--
+
+CREATE TABLE `student_clusters` (
+  `id` bigint UNSIGNED NOT NULL,
+  `cluster_id` bigint UNSIGNED NOT NULL,
+  `learning_style_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `teaching_style_preferences`
+--
+
+CREATE TABLE `teaching_style_preferences` (
+  `id` bigint UNSIGNED NOT NULL,
+  `learning_style_id` bigint UNSIGNED NOT NULL,
+  `teaching_style_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `teaching_style_preferences`
+--
+
+INSERT INTO `teaching_style_preferences` (`id`, `learning_style_id`, `teaching_style_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 10, NULL, NULL),
+(2, 1, 9, NULL, NULL),
+(3, 1, 7, NULL, NULL),
+(4, 2, 8, NULL, NULL),
+(5, 2, 7, NULL, NULL),
+(6, 2, 9, NULL, NULL),
+(7, 3, 10, NULL, NULL),
+(8, 3, 9, NULL, NULL),
+(9, 3, 7, NULL, NULL),
+(10, 4, 7, NULL, NULL),
+(11, 4, 8, NULL, NULL),
+(12, 5, 10, NULL, NULL),
+(13, 5, 8, NULL, NULL),
+(14, 6, 9, NULL, NULL),
+(15, 6, 7, NULL, NULL),
+(16, 6, 8, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tutor_clusters`
+--
+
+CREATE TABLE `tutor_clusters` (
+  `id` bigint UNSIGNED NOT NULL,
+  `cluster_id` bigint UNSIGNED NOT NULL,
+  `learning_style_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1270,7 +1355,12 @@ INSERT INTO `users` (`id`, `name`, `age`, `sex`, `email`, `position`, `email_ver
 (388, 'kevin guerra', '18', 'masculino', 'emanuel@gmail.com', NULL, NULL, 1, '$2y$10$k.kApOltKncLJiXp6BLJ2OLYWU92z8HspSoJM0ohv6NFgvmNUiycC', 0, NULL, '2023-09-02 16:28:54', '2023-09-02 16:37:36', NULL),
 (389, 'juan mena', '18', 'masculino', 'juanmenab25@gmail.com', NULL, NULL, 1, '$2y$10$FNSDo9mHAVFyphARyNW3cOnlu5TKhU8nUgPdFzjTprDQEFA9qtCYK', 0, NULL, '2023-09-02 16:30:43', '2023-09-02 16:41:57', NULL),
 (390, 'javier aguilar', '26', 'masculino', 'anthonyi181anth@gmail.com', NULL, NULL, 1, '$2y$10$Y0nIq6IZhk8w53w5tP0j5uJJ.NJMtMUBtFl2Qr9MBBKwx0sqJonOK', 0, NULL, '2023-09-02 17:59:23', '2023-09-02 18:31:54', NULL),
-(391, 'daniel wen', '23', 'masculino', 'daniel.wen@utp.ac.pa', NULL, NULL, 0, '$2y$10$Vc5s1zblF3kmXG3fdk4Dn.pWfoLqfYbLSss6fnTMVhrpcuCi8Y71a', 0, NULL, '2023-09-02 18:11:31', '2023-09-02 18:11:31', NULL);
+(391, 'daniel wen', '23', 'masculino', 'daniel.wen@utp.ac.pa', NULL, NULL, 0, '$2y$10$Vc5s1zblF3kmXG3fdk4Dn.pWfoLqfYbLSss6fnTMVhrpcuCi8Y71a', 0, NULL, '2023-09-02 18:11:31', '2023-09-02 18:11:31', NULL),
+(392, 'meilyn gonzalez', '22', 'femenino', 'meilyn.gonzalez@utp.ac.pa', NULL, NULL, 1, '$2y$10$cO170VOlVfccx0mqXKla4OHPWMxazE1owF4vc425iXjGWOSa4CETG', 0, NULL, '2023-09-03 15:43:28', '2023-09-03 15:50:40', NULL),
+(393, 'humberto', '20', 'masculino', 'arauz3805@gmail.com', NULL, NULL, 0, '$2y$10$AgKiaaG4HRTmJEiVSsd1XONvbHF.psHHABeMYkxZGGJLZOD.6vua2', 0, NULL, '2023-09-04 04:03:22', '2023-09-04 04:03:22', NULL),
+(394, 'ramiro lima', '17', 'masculino', 'rlima01.cj@gmail.com', NULL, NULL, 0, '$2y$10$qhN6UiVcAjiyStcO1/Kv6ONshQz97.4qskpZLJ7qh9k.zq57VmkWG', 0, NULL, '2023-09-07 16:48:52', '2023-09-07 16:48:52', NULL),
+(395, 'juan garzon', '23', 'masculino', 'garzonjpgs@gmail.com', NULL, NULL, 1, '$2y$10$gODdQiD05HkxOFp.rn5VuulkroPmPFJws0V0tzePZrSYB0UsJofaO', 0, NULL, '2023-09-09 13:23:57', '2023-09-09 13:48:00', NULL),
+(396, 'johel batista', '26', 'masculino', 'johel41@gmail.com', NULL, NULL, 0, '$2y$10$UgqzdjMU6mxW1av4YG63/ukBXbt0CndBgvW5lMV80SOP08CU5KxLq', 0, NULL, '2023-10-18 05:13:24', '2023-10-18 05:13:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -21401,11 +21491,122 @@ INSERT INTO `user_responses` (`id`, `user_id`, `question_id`, `possible_answer_i
 (20077, 390, 97, 2, '2023-09-02 18:31:54', '2023-09-02 18:31:54', NULL),
 (20078, 390, 98, 2, '2023-09-02 18:31:54', '2023-09-02 18:31:54', NULL),
 (20079, 390, 99, 5, '2023-09-02 18:31:54', '2023-09-02 18:31:54', NULL),
-(20080, 390, 100, 5, '2023-09-02 18:31:54', '2023-09-02 18:31:54', NULL);
+(20080, 390, 100, 5, '2023-09-02 18:31:54', '2023-09-02 18:31:54', NULL),
+(20081, 392, 61, 5, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20082, 392, 62, 3, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20083, 392, 63, 5, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20084, 392, 64, 5, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20085, 392, 65, 1, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20086, 392, 66, 5, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20087, 392, 67, 1, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20088, 392, 68, 5, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20089, 392, 69, 5, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20090, 392, 70, 5, '2023-09-03 15:45:38', '2023-09-03 15:45:38', NULL),
+(20091, 392, 71, 5, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20092, 392, 72, 1, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20093, 392, 73, 5, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20094, 392, 74, 5, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20095, 392, 75, 1, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20096, 392, 76, 5, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20097, 392, 77, 5, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20098, 392, 78, 4, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20099, 392, 79, 5, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20100, 392, 80, 5, '2023-09-03 15:47:34', '2023-09-03 15:47:34', NULL),
+(20101, 392, 81, 3, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20102, 392, 82, 5, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20103, 392, 83, 5, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20104, 392, 84, 5, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20105, 392, 85, 5, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20106, 392, 86, 5, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20107, 392, 87, 5, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20108, 392, 88, 5, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20109, 392, 89, 2, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20110, 392, 90, 5, '2023-09-03 15:49:14', '2023-09-03 15:49:14', NULL),
+(20111, 392, 91, 4, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20112, 392, 92, 5, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20113, 392, 93, 3, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20114, 392, 94, 4, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20115, 392, 95, 4, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20116, 392, 96, 1, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20117, 392, 97, 5, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20118, 392, 98, 5, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20119, 392, 99, 5, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20120, 392, 100, 5, '2023-09-03 15:50:40', '2023-09-03 15:50:40', NULL),
+(20121, 395, 61, 5, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20122, 395, 62, 3, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20123, 395, 63, 4, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20124, 395, 64, 2, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20125, 395, 65, 5, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20126, 395, 66, 5, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20127, 395, 67, 3, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20128, 395, 68, 4, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20129, 395, 69, 2, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20130, 395, 70, 5, '2023-09-09 13:38:30', '2023-09-09 13:38:30', NULL),
+(20131, 395, 71, 5, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20132, 395, 72, 1, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20133, 395, 73, 4, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20134, 395, 74, 4, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20135, 395, 75, 5, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20136, 395, 76, 5, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20137, 395, 77, 2, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20138, 395, 78, 5, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20139, 395, 79, 5, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20140, 395, 80, 5, '2023-09-09 13:45:35', '2023-09-09 13:45:35', NULL),
+(20141, 395, 81, 5, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20142, 395, 82, 3, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20143, 395, 83, 5, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20144, 395, 84, 5, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20145, 395, 85, 2, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20146, 395, 86, 5, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20147, 395, 87, 5, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20148, 395, 88, 3, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20149, 395, 89, 5, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20150, 395, 90, 5, '2023-09-09 13:46:44', '2023-09-09 13:46:44', NULL),
+(20151, 395, 91, 4, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20152, 395, 92, 3, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20153, 395, 93, 5, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20154, 395, 94, 5, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20155, 395, 95, 5, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20156, 395, 96, 5, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20157, 395, 97, 5, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20158, 395, 98, 4, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20159, 395, 99, 4, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20160, 395, 100, 4, '2023-09-09 13:48:00', '2023-09-09 13:48:00', NULL),
+(20161, 396, 61, 1, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20162, 396, 62, 5, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20163, 396, 63, 5, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20164, 396, 64, 4, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20165, 396, 65, 3, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20166, 396, 66, 3, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20167, 396, 67, 3, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20168, 396, 68, 4, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20169, 396, 69, 3, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL),
+(20170, 396, 70, 3, '2023-10-18 05:14:03', '2023-10-18 05:14:03', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_scores`
+--
+
+CREATE TABLE `user_scores` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `score` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `learning_style_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `clusters`
+--
+ALTER TABLE `clusters`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `failed_jobs`
@@ -21503,6 +21704,30 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
+-- Indices de la tabla `student_clusters`
+--
+ALTER TABLE `student_clusters`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_clusters_cluster_id_foreign` (`cluster_id`),
+  ADD KEY `student_clusters_learning_style_id_foreign` (`learning_style_id`);
+
+--
+-- Indices de la tabla `teaching_style_preferences`
+--
+ALTER TABLE `teaching_style_preferences`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `teaching_style_preferences_learning_style_id_foreign` (`learning_style_id`),
+  ADD KEY `teaching_style_preferences_teaching_style_id_foreign` (`teaching_style_id`);
+
+--
+-- Indices de la tabla `tutor_clusters`
+--
+ALTER TABLE `tutor_clusters`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tutor_clusters_cluster_id_foreign` (`cluster_id`),
+  ADD KEY `tutor_clusters_learning_style_id_foreign` (`learning_style_id`);
+
+--
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
@@ -21519,8 +21744,22 @@ ALTER TABLE `user_responses`
   ADD KEY `user_responses_possible_answer_id_foreign` (`possible_answer_id`);
 
 --
+-- Indices de la tabla `user_scores`
+--
+ALTER TABLE `user_scores`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_scores_user_id_foreign` (`user_id`),
+  ADD KEY `user_scores_learning_style_id_foreign` (`learning_style_id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `clusters`
+--
+ALTER TABLE `clusters`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -21550,7 +21789,7 @@ ALTER TABLE `learning_style_recommended_techniques`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
@@ -21583,16 +21822,40 @@ ALTER TABLE `roles`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `student_clusters`
+--
+ALTER TABLE `student_clusters`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `teaching_style_preferences`
+--
+ALTER TABLE `teaching_style_preferences`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `tutor_clusters`
+--
+ALTER TABLE `tutor_clusters`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=392;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=397;
 
 --
 -- AUTO_INCREMENT de la tabla `user_responses`
 --
 ALTER TABLE `user_responses`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20081;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20171;
+
+--
+-- AUTO_INCREMENT de la tabla `user_scores`
+--
+ALTER TABLE `user_scores`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -21636,463 +21899,40 @@ ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
+-- Filtros para la tabla `student_clusters`
+--
+ALTER TABLE `student_clusters`
+  ADD CONSTRAINT `student_clusters_cluster_id_foreign` FOREIGN KEY (`cluster_id`) REFERENCES `clusters` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `student_clusters_learning_style_id_foreign` FOREIGN KEY (`learning_style_id`) REFERENCES `learning_styles` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `teaching_style_preferences`
+--
+ALTER TABLE `teaching_style_preferences`
+  ADD CONSTRAINT `teaching_style_preferences_learning_style_id_foreign` FOREIGN KEY (`learning_style_id`) REFERENCES `learning_styles` (`id`),
+  ADD CONSTRAINT `teaching_style_preferences_teaching_style_id_foreign` FOREIGN KEY (`teaching_style_id`) REFERENCES `learning_styles` (`id`);
+
+--
+-- Filtros para la tabla `tutor_clusters`
+--
+ALTER TABLE `tutor_clusters`
+  ADD CONSTRAINT `tutor_clusters_cluster_id_foreign` FOREIGN KEY (`cluster_id`) REFERENCES `clusters` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tutor_clusters_learning_style_id_foreign` FOREIGN KEY (`learning_style_id`) REFERENCES `learning_styles` (`id`) ON DELETE CASCADE;
+
+--
 -- Filtros para la tabla `user_responses`
 --
 ALTER TABLE `user_responses`
   ADD CONSTRAINT `user_responses_possible_answer_id_foreign` FOREIGN KEY (`possible_answer_id`) REFERENCES `possible_answers` (`id`),
   ADD CONSTRAINT `user_responses_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
   ADD CONSTRAINT `user_responses_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
---
--- Base de datos: `phpmyadmin`
---
-CREATE DATABASE IF NOT EXISTS `phpmyadmin` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `phpmyadmin`;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__bookmark`
---
-
-CREATE TABLE `pma__bookmark` (
-  `id` int UNSIGNED NOT NULL,
-  `dbase` varchar(255) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `user` varchar(255) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `label` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
-  `query` text COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Bookmarks';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__central_columns`
---
-
-CREATE TABLE `pma__central_columns` (
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `col_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `col_type` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `col_length` text COLLATE utf8mb3_bin,
-  `col_collation` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `col_isNull` tinyint(1) NOT NULL,
-  `col_extra` varchar(255) COLLATE utf8mb3_bin DEFAULT '',
-  `col_default` text COLLATE utf8mb3_bin
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Central list of columns';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__column_info`
---
-
-CREATE TABLE `pma__column_info` (
-  `id` int UNSIGNED NOT NULL,
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `column_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `comment` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
-  `mimetype` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
-  `transformation` varchar(255) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `transformation_options` varchar(255) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `input_transformation` varchar(255) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `input_transformation_options` varchar(255) COLLATE utf8mb3_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Column information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__designer_settings`
---
-
-CREATE TABLE `pma__designer_settings` (
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `settings_data` text COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Settings related to Designer';
-
---
--- Volcado de datos para la tabla `pma__designer_settings`
---
-
-INSERT INTO `pma__designer_settings` (`username`, `settings_data`) VALUES
-('root', '{\"snap_to_grid\":\"off\",\"angular_direct\":\"direct\",\"relation_lines\":\"true\"}');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__export_templates`
---
-
-CREATE TABLE `pma__export_templates` (
-  `id` int UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `export_type` varchar(10) COLLATE utf8mb3_bin NOT NULL,
-  `template_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `template_data` text COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Saved export templates';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__favorite`
---
-
-CREATE TABLE `pma__favorite` (
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `tables` text COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Favorite tables';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__history`
---
-
-CREATE TABLE `pma__history` (
-  `id` bigint UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `db` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `table` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `timevalue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `sqlquery` text COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='SQL history for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__navigationhiding`
---
-
-CREATE TABLE `pma__navigationhiding` (
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `item_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `item_type` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Hidden items of navigation tree';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__pdf_pages`
---
-
-CREATE TABLE `pma__pdf_pages` (
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `page_nr` int UNSIGNED NOT NULL,
-  `page_descr` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='PDF relation pages for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__recent`
---
-
-CREATE TABLE `pma__recent` (
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `tables` text COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Recently accessed tables';
-
---
--- Volcado de datos para la tabla `pma__recent`
---
-
-INSERT INTO `pma__recent` (`username`, `tables`) VALUES
-('root', '[{\"db\":\"grasha_db\",\"table\":\"users\"},{\"db\":\"grasha_db\",\"table\":\"user_responses\"},{\"db\":\"grasha_db\",\"table\":\"questions\"},{\"db\":\"grasha_db\",\"table\":\"failed_jobs\"},{\"db\":\"grasha_db\",\"table\":\"migrations\"},{\"db\":\"grasha_db\",\"table\":\"model_has_permissions\"},{\"db\":\"grasha_db\",\"table\":\"password_resets\"},{\"db\":\"grasha_db\",\"table\":\"permissions\"},{\"db\":\"grasha_db\",\"table\":\"personal_access_tokens\"},{\"db\":\"grasha_db\",\"table\":\"learning_styles\"}]');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__relation`
---
-
-CREATE TABLE `pma__relation` (
-  `master_db` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `master_table` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `master_field` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `foreign_db` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `foreign_table` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `foreign_field` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Relation table';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__savedsearches`
---
-
-CREATE TABLE `pma__savedsearches` (
-  `id` int UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `search_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `search_data` text COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Saved searches';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__table_coords`
---
-
-CREATE TABLE `pma__table_coords` (
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `pdf_page_number` int NOT NULL DEFAULT '0',
-  `x` float UNSIGNED NOT NULL DEFAULT '0',
-  `y` float UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__table_info`
---
-
-CREATE TABLE `pma__table_info` (
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT '',
-  `display_field` varchar(64) COLLATE utf8mb3_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Table information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__table_uiprefs`
---
-
-CREATE TABLE `pma__table_uiprefs` (
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `prefs` text COLLATE utf8mb3_bin NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Tables'' UI preferences';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__tracking`
---
-
-CREATE TABLE `pma__tracking` (
-  `db_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `version` int UNSIGNED NOT NULL,
-  `date_created` datetime NOT NULL,
-  `date_updated` datetime NOT NULL,
-  `schema_snapshot` text COLLATE utf8mb3_bin NOT NULL,
-  `schema_sql` text COLLATE utf8mb3_bin,
-  `data_sql` longtext COLLATE utf8mb3_bin,
-  `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') COLLATE utf8mb3_bin DEFAULT NULL,
-  `tracking_active` int UNSIGNED NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Database changes tracking for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__userconfig`
---
-
-CREATE TABLE `pma__userconfig` (
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `timevalue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `config_data` text COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='User preferences storage for phpMyAdmin';
-
---
--- Volcado de datos para la tabla `pma__userconfig`
---
-
-INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
-('root', '2023-09-03 02:50:36', '{\"Console\\/Mode\":\"collapse\",\"lang\":\"es\"}');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__usergroups`
---
-
-CREATE TABLE `pma__usergroups` (
-  `usergroup` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `tab` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `allowed` enum('Y','N') COLLATE utf8mb3_bin NOT NULL DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='User groups with configured menu items';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pma__users`
---
-
-CREATE TABLE `pma__users` (
-  `username` varchar(64) COLLATE utf8mb3_bin NOT NULL,
-  `usergroup` varchar(64) COLLATE utf8mb3_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Users and their assignments to user groups';
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `pma__central_columns`
---
-ALTER TABLE `pma__central_columns`
-  ADD PRIMARY KEY (`db_name`,`col_name`);
-
---
--- Indices de la tabla `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
-
---
--- Indices de la tabla `pma__designer_settings`
---
-ALTER TABLE `pma__designer_settings`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indices de la tabla `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
-
---
--- Indices de la tabla `pma__favorite`
---
-ALTER TABLE `pma__favorite`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indices de la tabla `pma__history`
---
-ALTER TABLE `pma__history`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
-
---
--- Indices de la tabla `pma__navigationhiding`
---
-ALTER TABLE `pma__navigationhiding`
-  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
-
---
--- Indices de la tabla `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  ADD PRIMARY KEY (`page_nr`),
-  ADD KEY `db_name` (`db_name`);
-
---
--- Indices de la tabla `pma__recent`
---
-ALTER TABLE `pma__recent`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indices de la tabla `pma__relation`
---
-ALTER TABLE `pma__relation`
-  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
-  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
-
---
--- Indices de la tabla `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
-
---
--- Indices de la tabla `pma__table_coords`
---
-ALTER TABLE `pma__table_coords`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
-
---
--- Indices de la tabla `pma__table_info`
---
-ALTER TABLE `pma__table_info`
-  ADD PRIMARY KEY (`db_name`,`table_name`);
-
---
--- Indices de la tabla `pma__table_uiprefs`
---
-ALTER TABLE `pma__table_uiprefs`
-  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
-
---
--- Indices de la tabla `pma__tracking`
---
-ALTER TABLE `pma__tracking`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
-
---
--- Indices de la tabla `pma__userconfig`
---
-ALTER TABLE `pma__userconfig`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indices de la tabla `pma__usergroups`
---
-ALTER TABLE `pma__usergroups`
-  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
-
---
--- Indices de la tabla `pma__users`
---
-ALTER TABLE `pma__users`
-  ADD PRIMARY KEY (`username`,`usergroup`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pma__history`
---
-ALTER TABLE `pma__history`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  MODIFY `page_nr` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `pma__savedsearches`
+-- Filtros para la tabla `user_scores`
 --
-ALTER TABLE `pma__savedsearches`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `user_scores`
+  ADD CONSTRAINT `user_scores_learning_style_id_foreign` FOREIGN KEY (`learning_style_id`) REFERENCES `learning_styles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_scores_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
