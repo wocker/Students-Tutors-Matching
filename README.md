@@ -1,14 +1,24 @@
-#Matchington Project: Operation Edu-Link
+This research work offers an innovative approach for pairing students and tutors based on the correlation between teaching and learning styles, according to the Grasha-Riechmann Pedagogical Model.
 
-Abstract: This classified document critically analyzes the covert educational operation termed #PilandoAndo. Our sources have confirmed that every strategic initiative this operation takes is directed towards specific beneficiaries, identified as 'students.' For reasons yet to be declassified, these individuals are of paramount importance to the initiative.
+It aims to optimize the educational process through a more informed and strategic matchmaking. This is supported by the theory of "Learning Clusters" by Dr. Anthony Grasha, which suggests a direct relationship between the students' learning styles and the tutors' teaching styles.
 
-Background: During a global crisis codenamed 'Pandemic,' the operation discerned a potential vulnerability - a break in the education continuum, especially in the foundational sectors like arithmetic and algebra. The purpose of #PilandoAndo appears to be the creation of covert connections between students and undisclosed operatives (referred to as 'college-goers,' 'educators,' and 'professionals').
+A data collection process designed through a web application is included at the methodology level, in which the Teaching and Learning Styles Inventory Survey for Tutors and Students will be applied.
 
-Operational Achievements: While this operation might seem overtly academic, internal feedback channels show heightened levels of satisfaction and achievement. These accomplishments, while significant, are not to be credited to any single operative. Intelligence suggests a vast network operating behind the scenes, with expansive virtual transmissions and covert tutoring sessions being organized.
+The collected data is stored, processed, and organized through data management techniques, thus establishing an interactive information repository called #PilandoAndo Learning Management System (SGE, for its acronym in Spanish) of the Ayudinga Foundation.
 
-Support Channels: The financial conduits supporting this operation remain diverse. Multiple donors, whose identities remain classified, have been channeling resources, ensuring the continuation and expansion of the project. Preliminary analysis indicates that these discrete contributions have been monumental in sustaining the operation's momentum.
+The research continues developing an application that implements the mathematical concept of Bipartite Graphs to match students and tutors optimally.
 
-Forward Path: The underlying mission of the Matchington Project, though shrouded in confidentiality, resonates with the universal theme of education. It's assessed that they aim to amplify their reach, drawing more individuals into their fold. As gathered from various covert communications, they intend to create a synergistic network, maximizing growth, learning, and potential opportunities.
+This procedure allows the creation of subsets of data analyzed using advanced mathematical calculation tools. This approach also considers that multiple students can be assigned to a single tutor to maximize collective learning.
 
-Recommendation:
-While this operation might appear benign, monitoring their activities closely is advised. Their expanding influence and potential to shape futures warrant attention.
+ 
+Subsequently, these data will be analyzed by a maximum matching algorithm called Gale Shapley; however, an adaptation that aims to identify the styles of students and tutors will be used. This automated procedure ensures efficient and accurate data management, preparing it for analysis and visualization.
+
+The results of this pairing are stored for later analysis. They are displayed through the "Administration Panel" of the #PilandoAndo SGE, providing a dashboard that presents the "Maximum Pairing" between students and tutors.
+
+It is essential to highlight that this study also considers the limitations and restrictions of the number of students that a tutor can effectively manage, as well as by evaluating how changeable the learning and teaching styles of a student or tutor can be, so will be limited to specific adaptive measurement through human decisions.
+
+The findings of this exploratory study will provide an effective and data-driven strategy for creating tutoring groups in the Ayudinga Foundation's massive educational interventions, known as #PilandoAndo, in its different versions.
+
+This approach will allow for more personalized and effective teaching, benefiting tutors and students by promoting a more productive and enriching learning environment.
+
+Keywords: Approximate Matching, Learning Clusters, Grasha – Riechmann, Perfect Matching, Personalized Teaching, Data Management, Educational Information Systems, Gale-Shapley, Matching Theory, Students, Tutors, Ayudinga Foundation
