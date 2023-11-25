@@ -1,5 +1,3 @@
-This research work offers an innovative approach for pairing students and tutors based on the correlation between teaching and learning styles, according to the Grasha-Riechmann Pedagogical Model.
-
 It aims to optimize the educational process through a more informed and strategic matchmaking. This is supported by the theory of "Learning Clusters" by Dr. Anthony Grasha, which suggests a direct relationship between the students' learning styles and the tutors' teaching styles.
 
 A data collection process designed through a web application is included at the methodology level, in which the Teaching and Learning Styles Inventory Survey for Tutors and Students will be applied.
